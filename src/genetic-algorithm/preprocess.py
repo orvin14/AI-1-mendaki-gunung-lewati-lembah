@@ -12,14 +12,14 @@ def bagi_sesi(sks):
 def generate_sesi(kode, durasi, ruangan, hari):
     ruangan = random.choice(ruangan)
     hari= random.choice(hari)
-    jam_mulai = random.randint(7, 18 - durasi)
-    jam_selesai = jam_mulai + durasi
+    waktu_mulai = random.randint(7, 18 - durasi)
+    waktu_selesai = waktu_mulai + durasi
     return {
         'kode': kode,
         'ruangan': ruangan['kode'],
         'hari': hari,
-        'jam_mulai': jam_mulai,
-        'jam_selesai': jam_selesai
+        'waktu_mulai': waktu_mulai,
+        'waktu_selesai': waktu_selesai
     }
 
 def generate_population(kelas_mata_kuliah, ruangan, hari):
