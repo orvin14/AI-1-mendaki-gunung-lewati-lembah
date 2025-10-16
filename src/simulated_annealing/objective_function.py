@@ -16,7 +16,6 @@ def objective_function(population, kelas_mata_kuliah, ruangan, mahasiswa):
                     if not (jadwal_mahasiswa[j]['waktu_selesai'] <= jadwal_mahasiswa[k]['waktu_mulai'] or
                             jadwal_mahasiswa[k]['waktu_selesai'] <= jadwal_mahasiswa[j]['waktu_mulai']):
                         conflict += 2
-                        # print(f"Conflict for student {mahasiswa[i]['nim']} between {jadwal_mahasiswa[j]['kode']} and {jadwal_mahasiswa[k]['kode']}")
     for i in range(len(population)):
         sesi1 = population[i]
         for j in range(i + 1, len(population)):
@@ -29,7 +28,6 @@ def objective_function(population, kelas_mata_kuliah, ruangan, mahasiswa):
                     for siswa in mahasiswa:
                         if sesi2['kode'] in siswa['daftar_mk']:
                             conflict += (sesi2['waktu_selesai'] - sesi2['waktu_mulai'])*bobot_penalti(siswa['prioritas'][siswa['daftar_mk'].index(sesi2['kode'])])
-                    # print(f"Conflict in room {sesi1['ruangan']} between {sesi1['kode']} and {sesi2['kode']}")
     for i in range(len(population)):
         sesi = population[i]
         kelas_sesi = kelas_mata_kuliah[0]
@@ -42,5 +40,4 @@ def objective_function(population, kelas_mata_kuliah, ruangan, mahasiswa):
                 ruangan_sesi = ruang
         if kelas_sesi['jumlah_mahasiswa'] > ruangan_sesi['kuota']:
             conflict += (kelas_sesi['jumlah_mahasiswa'] - ruangan_sesi['kuota'])*(sesi['waktu_selesai'] - sesi['waktu_mulai'])
-            # print(f"Capacity conflict in room {sesi['ruangan']} for class {sesi['kode']}")
     return conflict

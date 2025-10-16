@@ -36,6 +36,9 @@ def simulated_annealing(jadwal_awal,suhu_awal,laju_pendinginan,suhu_akhir,kelas_
         history['penalti'].append(penalti_sekarang)
         history['penalti_terbaik'].append(penalti_terbaik)
 
+        if penalti_sekarang == 0:
+            break
+
         suhu_sekarang *= laju_pendinginan
 
     return jadwal_terbaik, penalti_terbaik, history
