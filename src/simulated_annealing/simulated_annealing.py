@@ -12,7 +12,7 @@ def simulated_annealing(jadwal_awal,suhu_awal,laju_pendinginan,suhu_akhir,kelas_
     jadwal_terbaik = copy.deepcopy(jadwal_awal)
     penalti_terbaik = penalti_sekarang
     
-    history = {'suhu': [], 'penalti': [], 'penalti_terbaik': []}
+    history = {'probabilitas_penerimaan': [], 'penalti': [], 'penalti_terbaik': []}
 
     while suhu_sekarang > suhu_akhir:
         jadwal_tetangga = generate_neighbor(jadwal_sekarang, ruangan, hari)
@@ -22,8 +22,10 @@ def simulated_annealing(jadwal_awal,suhu_awal,laju_pendinginan,suhu_akhir,kelas_
         if selisih_penalti < 0:
             jadwal_sekarang = jadwal_tetangga
             penalti_sekarang = penalti_tetangga
+            history['probabilitas_penerimaan'].append(None)
         else:
             probabilitas_penerimaan = math.exp(-selisih_penalti / suhu_sekarang)
+            history['probabilitas_penerimaan'].append(probabilitas_penerimaan)
             if random.random() < probabilitas_penerimaan:
                 jadwal_sekarang = jadwal_tetangga
                 penalti_sekarang = penalti_tetangga
@@ -32,7 +34,6 @@ def simulated_annealing(jadwal_awal,suhu_awal,laju_pendinginan,suhu_akhir,kelas_
             jadwal_terbaik = jadwal_sekarang
             penalti_terbaik = penalti_sekarang
         
-        history['suhu'].append(suhu_sekarang)
         history['penalti'].append(penalti_sekarang)
         history['penalti_terbaik'].append(penalti_terbaik)
 
