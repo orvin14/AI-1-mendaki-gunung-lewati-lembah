@@ -114,39 +114,56 @@ def plot_objective_function_history(history, title="Objective Function vs Iterat
     plt.close()
 
 
-def plot_temperature_history(history, title="Temperature and Penalty vs Iterations", filename=None):
-    if not history.get('suhu'):
-        print("No temperature data to plot")
+import matplotlib.pyplot as plt
+
+# Di dalam file main.py
+
+# Di dalam file main.py
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_sa_dashboard(history, title="Dashboard Hasil Simulated Annealing", filename=None):
+    penalti_terbaik = history.get('penalti_terbaik', [])
+    penalti_sekarang = history.get('penalti', [])
+    
+    prob_data = history.get('probabilitas_penerimaan', [])
+    prob_iterations = [i for i, p in enumerate(prob_data) if p is not None]
+    probabilities = [p for p in prob_data if p is not None]
+
+    if not penalti_terbaik:
+        print("Tidak ada data untuk diplot.")
         return
+
+    fig, axs = plt.subplots(2, 1, figsize=(14, 10), sharex=True)
     
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-    
-    iterations = list(range(len(history['suhu'])))
-    
-    ax1.plot(iterations, history['suhu'], 'r-', linewidth=2)
-    ax1.set_xlabel('Iteration', fontsize=12)
-    ax1.set_ylabel('Temperature', fontsize=12, color='r')
-    ax1.tick_params(axis='y', labelcolor='r')
-    ax1.set_title('Temperature vs Iterations', fontsize=14, fontweight='bold')
-    ax1.grid(True, alpha=0.3)
-    
-    ax2.plot(iterations, history['penalti'], 'b-', linewidth=2, label='Current Penalty')
-    ax2.plot(iterations, history['penalti_terbaik'], 'g-', linewidth=2, label='Best Penalty')
-    ax2.set_xlabel('Iteration', fontsize=12)
-    ax2.set_ylabel('Penalty', fontsize=12)
-    ax2.set_title('Penalty vs Iterations', fontsize=14, fontweight='bold')
-    ax2.legend()
-    ax2.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
-    
+    fig.suptitle(title, fontsize=18, fontweight='bold')
+
+    axs[0].plot(penalti_sekarang, color='skyblue', linestyle='--', alpha=0.8, label='Penalti Saat Ini')
+    axs[0].plot(penalti_terbaik, color='blue', linewidth=2.5, label='Penalti Terbaik')
+    axs[0].set_ylabel('Nilai Penalti (Cost)', fontsize=12)
+    axs[0].set_title('Perkembangan Nilai Objective Function', fontsize=14)
+    axs[0].legend()
+    axs[0].grid(True, linestyle='--', alpha=0.6)
+
+    if probabilities:
+        axs[1].scatter(prob_iterations, probabilities, color='red', alpha=0.3, s=15, label='Probabilitas (e^-ΔE/T)')
+    axs[1].set_ylabel('Probabilitas', fontsize=12)
+    axs[1].set_title('Probabilitas Penerimaan Solusi Buruk', fontsize=14)
+    axs[1].set_xlabel('Iterasi', fontsize=12)
+    axs[1].set_ylim(0, 1.05)
+    axs[1].legend()
+    axs[1].grid(True, linestyle='--', alpha=0.6)
+
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+
     if filename:
         plt.savefig(filename, dpi=300, bbox_inches='tight')
-        print(f"Plot saved to {filename}")
+        print(f"Plot telah disimpan ke {filename}")
     else:
         plt.show()
+    
     plt.close()
-
 
 def plot_random_restart_history(restart_histories, title="Random Restart Hill Climbing - Objective Function", filename=None):
     if not restart_histories:
@@ -498,8 +515,8 @@ def run_simulated_annealing(jadwal_awal, kelas_mata_kuliah, ruangan, mahasiswa, 
     print("="*80 + "\n")
     
     suhu_awal = float(input("Enter initial temperature (default 1000): ") or "1000")
-    laju_pendinginan = float(input("Enter cooling rate (default 0.95): ") or "0.95")
-    suhu_akhir = float(input("Enter final temperature (default 1): ") or "1")
+    laju_pendinginan = float(input("Enter cooling rate (default 0.999): ") or "0.999")
+    suhu_akhir = float(input("Enter final temperature (default 0.1): ") or "0.1")
     
     jadwal_sekarang = copy.deepcopy(jadwal_awal)
     penalti_awal = objective_function(jadwal_sekarang, kelas_mata_kuliah, ruangan, mahasiswa)
@@ -528,12 +545,12 @@ def run_simulated_annealing(jadwal_awal, kelas_mata_kuliah, ruangan, mahasiswa, 
     print(f"Initial Temperature: {suhu_awal}")
     print(f"Final Temperature: {suhu_akhir}")
     print(f"Cooling Rate: {laju_pendinginan}")
-    print(f"Total Iterations: {len(history['suhu'])}")
+    print(f"Total Iterations: {len(history['penalti'])}")
     print(f"Times Stuck at Local Optima: {stuck_count}")
     print(f"Duration: {duration:.4f} seconds")
     print(f"{'='*80}\n")
     
-    plot_temperature_history(history, "Simulated Annealing - Temperature and Penalty vs Iterations")
+    plot_sa_dashboard(history, "Simulated Annealing - Acceptence Probability and Penalty vs Iterations")
     
     return jadwal_terbaik, penalti_terbaik, duration, history, stuck_count
 
