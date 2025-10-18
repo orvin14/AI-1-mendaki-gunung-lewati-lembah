@@ -1,24 +1,20 @@
 import copy
-import time
-import random
 import matplotlib.pyplot as plt
 
 from simulated_annealing.objective_function import objective_function
 from hill_climbing.generate_all_neighbors import generate_all_neighbors 
+from genetic_algorithm.preprocess import generate_population
 
-def generate_random_schedule(kelas_mata_kuliah, ruangan, hari):
-    jadwal = []
-    for kelas in kelas_mata_kuliah:
-        sks = kelas.get('sks', 1)
-        sesi = {
-            'kode': kelas['kode'],
-            'ruangan': random.choice(ruangan)['kode'],
-            'hari': random.choice(hari),
-            'waktu_mulai': random.randint(7, 18 - sks),
-        }
-        sesi['waktu_selesai'] = sesi['waktu_mulai'] + sks
-        jadwal.append(sesi)
-    return jadwal
+def print_schedule_simple(jadwal, title="SCHEDULE"):
+    print(f"\n{'='*80}")
+    print(f"{title:^80}")
+    print(f"{'='*80}")
+    print(f"{'Kode':<15} {'Ruangan':<15} {'Hari':<10} {'Jam':<15}")
+    print('-'*80)
+    for sesi in jadwal:
+        print(f"{sesi['kode']:<15} {sesi['ruangan']:<15} {sesi['hari']:<10} "
+              f"{sesi['waktu_mulai']}-{sesi['waktu_selesai']:<15}")
+    print('='*80)
 
 def hill_climbing_steepest_once(jadwal_awal, kelas_mata_kuliah, ruangan, mahasiswa, hari,
                                 objective_function, max_neighbors=500):
@@ -60,8 +56,13 @@ def hill_climbing_random_restart_procedure(
     for restart in range(max_restart):
         print(f"\n--- RESTART {restart + 1}/{max_restart} ---")
 
-        jadwal_restart = generate_random_schedule(kelas_mata_kuliah, ruangan, hari)
+        jadwal_restart = generate_population(kelas_mata_kuliah, ruangan, hari)
         penalti_restart = objective_function(jadwal_restart, kelas_mata_kuliah, ruangan, mahasiswa)
+        
+        print(f"\nInitial State:")
+        print_schedule_simple(jadwal_restart, "INITIAL STATE")
+        print(f"\nInitial Objective Function: {penalti_restart}")
+        
         print(f"Penalty awal: {penalti_restart}")
 
         jadwal_hasil, penalti_hasil, iterasi, history = hill_climbing_steepest_once(

@@ -16,14 +16,12 @@ from hill_climbing.stochastic import stochastic_hill_climbing
 from simulated_annealing.simulated_annealing import simulated_annealing
 from simulated_annealing.objective_function import objective_function
 
-def print_schedule_table(jadwal, ruangan, hari, title="SCHEDULE"):
+def print_schedule_table(jadwal, penalti, ruangan, hari, title="SCHEDULE"):
     print(f"\n{'='*80}")
     print(f"{title:^80}")
     print(f"{'='*80}\n")
-    
-    has_conflict = check_schedule_conflicts(jadwal)
-    
-    if has_conflict:
+        
+    if penalti > 0:
         print("Schedule has conflicts - displaying in list:")
         print_schedule_simple(jadwal)
         return
@@ -64,17 +62,6 @@ def print_schedule_simple(jadwal, title="SCHEDULE"):
         print(f"{sesi['kode']:<15} {sesi['ruangan']:<15} {sesi['hari']:<10} "
               f"{sesi['waktu_mulai']}-{sesi['waktu_selesai']:<15}")
     print('='*80)
-
-def check_schedule_conflicts(jadwal):
-    for i in range(len(jadwal)):
-        for j in range(i + 1, len(jadwal)):
-            sesi1 = jadwal[i]
-            sesi2 = jadwal[j]
-            if sesi1['ruangan'] == sesi2['ruangan'] and sesi1['hari'] == sesi2['hari']:
-                if not (sesi1['waktu_selesai'] <= sesi2['waktu_mulai'] or 
-                          sesi2['waktu_selesai'] <= sesi1['waktu_mulai']):
-                    return True
-    return False
 
 def plot_objective_function_history(history, title="Objective Function vs Iterations", 
                                   xlabel="Iteration", ylabel="Objective Function (Penalty)",
@@ -214,7 +201,7 @@ def run_steepest_ascent_hill_climbing(jadwal_awal, kelas_mata_kuliah, ruangan, m
     
     duration = time.time() - start_time
     
-    print_schedule_table(jadwal_akhir, ruangan, hari, "FINAL STATE")
+    print_schedule_table(jadwal_akhir, penalti_akhir, ruangan, hari, "FINAL STATE")
     
     print(f"\n{'='*80}")
     print(f"{'RESULTS':^80}")
@@ -252,7 +239,7 @@ def run_sideways_hill_climbing(jadwal_awal, kelas_mata_kuliah, ruangan, mahasisw
     
     duration = time.time() - start_time
     
-    print_schedule_table(jadwal_akhir, ruangan, hari, "FINAL STATE")
+    print_schedule_table(jadwal_akhir, penalti_akhir, ruangan, hari, "FINAL STATE")
     
     print(f"\n{'='*80}")
     print(f"{'RESULTS':^80}")
@@ -284,7 +271,7 @@ def run_random_restart_hill_climbing(kelas_mata_kuliah, ruangan, mahasiswa, hari
 
     duration = time.time() - start_time
     
-    print_schedule_table(jadwal_terbaik_global, ruangan, hari, "FINAL STATE")
+    print_schedule_table(jadwal_terbaik_global, penalti_terbaik_global, ruangan, hari, "FINAL STATE")
     
     print(f"\n{'='*80}")
     print(f"{'RESULTS':^80}")
@@ -326,7 +313,7 @@ def run_stochastic_hill_climbing(jadwal_awal, kelas_mata_kuliah, ruangan, mahasi
     
     duration = time.time() - start_time
     
-    print_schedule_table(jadwal_akhir, ruangan, hari, "FINAL STATE")
+    print_schedule_table(jadwal_akhir, penalti_akhir, ruangan, hari, "FINAL STATE")
     
     print(f"\n{'='*80}")
     print(f"{'RESULTS':^80}")
@@ -363,7 +350,7 @@ def run_simulated_annealing(jadwal_awal, kelas_mata_kuliah, ruangan, mahasiswa, 
     )
     duration = time.time() - start_time
     
-    print_schedule_table(jadwal_terbaik, ruangan, hari, "FINAL STATE")
+    print_schedule_table(jadwal_terbaik, penalti_terbaik, ruangan, hari, "FINAL STATE")
     
     print(f"\n{'='*80}")
     print(f"{'RESULTS':^80}")
@@ -500,7 +487,7 @@ def run_genetic_algorithm_experiment(kelas_mata_kuliah, ruangan, mahasiswa, hari
             print(f"\nInitial State (Run {best_run['run']}):")
             print_schedule_simple(best_run['initial_schedule'], "INITIAL STATE")
             print(f"\nFinal State (Run {best_run['run']}):")
-            print_schedule_table(best_run['final_schedule'], ruangan, hari_list, "FINAL STATE")
+            print_schedule_table(best_run['final_schedule'], best_run['final_penalty'], ruangan, hari_list, "FINAL STATE")
     
     elif choice == "2":
         iterations = int(input("\nEnter fixed iteration count (default 100): ") or "100")
@@ -545,7 +532,7 @@ def run_genetic_algorithm_experiment(kelas_mata_kuliah, ruangan, mahasiswa, hari
         final_penalty = objective_function(best_individual, kelas_mata_kuliah, ruangan, mahasiswa)
         
         print(f"\nFinal State:")
-        print_schedule_table(best_individual, ruangan, hari_list, "FINAL STATE")
+        print_schedule_table(best_individual, final_penalty, ruangan, hari_list, "FINAL STATE")
         print(f"\nFinal Fitness: {max_fitness:.6f}")
         print(f"Final Objective Function: {final_penalty}")
         
