@@ -622,6 +622,7 @@ def run_genetic_algorithm_experiment(kelas_mata_kuliah, ruangan, mahasiswa, hari
                 print(f"Final fitness: {max_fitness:.6f}")
                 print(f"Final penalty: {final_penalty}")
                 print(f"Generations completed: {final_gen}")
+                print(f"Total individuals evaluated: {total_ind}")
                 print(f"Duration: {duration:.4f} seconds")
                 
                 config_results.append({
@@ -650,10 +651,12 @@ def run_genetic_algorithm_experiment(kelas_mata_kuliah, ruangan, mahasiswa, hari
             print(f"{'='*80}")
             avg_final_fitness = sum(r['final_fitness'] for r in config_results) / len(config_results)
             avg_final_penalty = sum(r['final_penalty'] for r in config_results) / len(config_results)
+            avg_ind = sum(r['total_individuals'] for r in config_results) / len(config_results)
             avg_duration = sum(r['duration'] for r in config_results) / len(config_results)
             
             print(f"Average Final Fitness: {avg_final_fitness:.6f}")
             print(f"Average Final Penalty: {avg_final_penalty:.2f}")
+            print(f"Average Total Individuals Evaluated: {avg_ind}")
             print(f"Average Duration: {avg_duration:.4f} seconds")
             print(f"{'='*80}\n")
             
@@ -743,6 +746,7 @@ def run_genetic_algorithm_experiment(kelas_mata_kuliah, ruangan, mahasiswa, hari
                 print(f"Final fitness: {max_fitness:.6f}")
                 print(f"Final penalty: {final_penalty}")
                 print(f"Generations completed: {final_gen}")
+                print(f"Total individuals evaluated: {total_ind}")
                 print(f"Duration: {duration:.4f} seconds")
                 
                 config_results.append({
@@ -771,10 +775,12 @@ def run_genetic_algorithm_experiment(kelas_mata_kuliah, ruangan, mahasiswa, hari
             print(f"{'='*80}")
             avg_final_fitness = sum(r['final_fitness'] for r in config_results) / len(config_results)
             avg_final_penalty = sum(r['final_penalty'] for r in config_results) / len(config_results)
+            avg_ind = sum(r['total_individuals'] for r in config_results) / len(config_results)
             avg_duration = sum(r['duration'] for r in config_results) / len(config_results)
             
             print(f"Average Final Fitness: {avg_final_fitness:.6f}")
             print(f"Average Final Penalty: {avg_final_penalty:.2f}")
+            print(f"Average Total Individuals Evaluated: {avg_ind}")
             print(f"Average Duration: {avg_duration:.4f} seconds")
             print(f"{'='*80}\n")
             
