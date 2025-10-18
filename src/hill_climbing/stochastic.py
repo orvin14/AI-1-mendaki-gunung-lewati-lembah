@@ -8,19 +8,23 @@ def stochastic_hill_climbing(initial_state, kelas_mata_kuliah, ruangan, mahasisw
     current_state = copy.deepcopy(initial_state)
     current_penalty = objective_function(current_state, kelas_mata_kuliah, ruangan, mahasiswa)
     
-    iterasi = 0
-    for iteration in range(max_iter):
-        iterasi += 1
+    history = {'iterasi': [0], 'penalti': [current_penalty]}
+    iterasi_total = 0
+    for _ in range(max_iter):
+        iterasi_total += 1
         neighbor = generate_neighbor(current_state, ruangan, hari)
         neighbor_penalty = objective_function(neighbor, kelas_mata_kuliah, ruangan, mahasiswa)
         
+        if current_penalty == 0:
+            
+            print("\nInfo: Solusi optimal (penalti = 0) ditemukan. Menghentikan pencarian lebih awal.")
+            return current_state, current_penalty, history, history['iterasi'][-1]
+        
         if neighbor_penalty < current_penalty:
+            history['iterasi'].append(iterasi_total)
+            history['penalti'].append(neighbor_penalty)
             current_state = neighbor
             current_penalty = neighbor_penalty
-        
-        if current_penalty == 0:
-            print("\nInfo: Solusi optimal (penalti = 0) ditemukan. Menghentikan pencarian lebih awal.")
-            return current_state, current_penalty, iterasi
     
     print("\nInfo: Maksimum iterasi tercapai. Menghentikan pencarian.")
-    return current_state, current_penalty, iterasi
+    return current_state, current_penalty, history, history['iterasi'][-1]
