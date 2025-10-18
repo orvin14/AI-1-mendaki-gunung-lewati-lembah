@@ -188,7 +188,6 @@ def run_steepest_ascent_hill_climbing(jadwal_awal, kelas_mata_kuliah, ruangan, m
     jadwal_sekarang = copy.deepcopy(jadwal_awal)
     penalti_awal = objective_function(jadwal_sekarang, kelas_mata_kuliah, ruangan, mahasiswa)
     
-    print(f"\nInitial State:")
     print_schedule_simple(jadwal_sekarang, "INITIAL STATE")
     print(f"\nInitial Objective Function: {penalti_awal}")
     
@@ -226,7 +225,6 @@ def run_sideways_hill_climbing(jadwal_awal, kelas_mata_kuliah, ruangan, mahasisw
     jadwal_sekarang = copy.deepcopy(jadwal_awal)
     penalti_awal = objective_function(jadwal_sekarang, kelas_mata_kuliah, ruangan, mahasiswa)
     
-    print(f"\nInitial State:")
     print_schedule_simple(jadwal_sekarang, "INITIAL STATE")
     print(f"\nInitial Objective Function: {penalti_awal}")
     
@@ -300,8 +298,7 @@ def run_stochastic_hill_climbing(jadwal_awal, kelas_mata_kuliah, ruangan, mahasi
     
     jadwal_sekarang = copy.deepcopy(jadwal_awal)
     penalti_awal = objective_function(jadwal_sekarang, kelas_mata_kuliah, ruangan, mahasiswa)
-    
-    print(f"\nInitial State:")
+
     print_schedule_simple(jadwal_sekarang, "INITIAL STATE")
     print(f"\nInitial Objective Function: {penalti_awal}")
     
@@ -339,7 +336,6 @@ def run_simulated_annealing(jadwal_awal, kelas_mata_kuliah, ruangan, mahasiswa, 
     jadwal_sekarang = copy.deepcopy(jadwal_awal)
     penalti_awal = objective_function(jadwal_sekarang, kelas_mata_kuliah, ruangan, mahasiswa)
     
-    print(f"\nInitial State:")
     print_schedule_simple(jadwal_sekarang, "INITIAL STATE")
     print(f"\nInitial Objective Function: {penalti_awal}")
     

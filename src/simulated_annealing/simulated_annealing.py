@@ -1,5 +1,3 @@
-# File: src/simulated_annealing/simulated_annealing.py
-
 import math
 import random
 import copy
