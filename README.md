@@ -1,5 +1,5 @@
 # Tugas Besar 1 IF3170-mendaki-gunung-lewati-lembah
-Repositori ini berisi implementasi berbagai algoritma pencarian heuristik yang dirancang untuk menyelesaikan masalah penjadwalan mata kuliah di perguruan tinggi, sebuah tantangan optimisasi kombinatorial yang bersifat NP-hard. Proyek ini secara spesifik mengimplementasikan Algoritma Genetika dan beberapa variasi dari Hill Climbing, seperti Steepest Ascent, Sideways Move, Random Restart, dan Stochastic. Seluruh solusi dikembangkan dalam bahasa Python, dengan memanfaatkan matplotlib untuk membuat visualisasi dari hasil eksperimen dan performa algoritma.
+Repositori ini berisi implementasi berbagai algoritma local search yang dirancang untuk menyelesaikan masalah penjadwalan mata kuliah di perguruan tinggi, sebuah tantangan optimisasi kombinatorial yang bersifat NP-hard. Proyek ini secara spesifik mengimplementasikan seluruh variasi algoritma Hill Climbing, algoritma Simuplated Annealing, dan Genetic Algorithm. Seluruh solusi dikembangkan dalam bahasa Python, dengan memanfaatkan matplotlib untuk membuat visualisasi dari hasil eksperimen dan performa algoritma.
 ## Cara Setup dan Run Program
 ### Prasyarat
 * Python
