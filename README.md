@@ -35,4 +35,4 @@ Repositori ini berisi implementasi berbagai algoritma local search yang dirancan
 | --------------------------  | ------------- | ------------------------------------------- |
 | Orvin Andika Ikhsan Abhista |    13523017   | Laporan, Genetic Algorithm                  |
 | Fajar Kurniawan             |    13523027   | Laporan, HC-SA, HC-SM, HC-RR                |
-| Fajar Kurniawan             |    13523027   | Laporan, HC-Stochastic, Simulated Annealing |
+| Reza Ahmad Syarif           |    13523117   | Laporan, HC-Stochastic, Simulated Annealing |
